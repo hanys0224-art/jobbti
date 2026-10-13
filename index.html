@@ -1,0 +1,376 @@
+<title>잡BTI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gothic+A1:wght@400;500;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<style>
+/* Layout: one phone-width column on a white office floor; a pixel office lobby opens, questions ride an elevator to the 12F interview room, the result is an ID badge */
+:root{
+  --bg:#FFFFFF; --sheet:#FFFFFF; --ink:#18213A; --muted:#6A7183; --line:#E2E5EC; --soft:#F4F6FA;
+  --navy:#1D2B53; --stamp:#D63A2F; --on-navy:#FFFFFF;
+  --f-display:"Do Hyeon","Gothic A1","Apple SD Gothic Neo",sans-serif;
+  --f-body:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"Nanum Gothic Coding",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F131C; --sheet:#161C28; --ink:#ECEEF3; --muted:#9AA2B4; --line:#2A3244; --soft:#1C2332;
+  --navy:#3A4E8A; --stamp:#EF5A4E; --on-navy:#FFFFFF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F131C; --sheet:#161C28; --ink:#ECEEF3; --muted:#9AA2B4; --line:#2A3244; --soft:#1C2332;
+  --navy:#3A4E8A; --stamp:#EF5A4E; --on-navy:#FFFFFF; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{word-break:keep-all;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+h1,h2{text-wrap:balance;margin:0}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:24px 20px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--muted)}
+
+/* Company mark */
+.brand{display:flex;align-items:center;gap:10px}
+.mono{flex:none;width:38px;height:38px;border-radius:6px;background:var(--navy);color:var(--on-navy);display:grid;place-items:center;font-family:var(--f-display);font-size:20px;letter-spacing:-.04em;position:relative}
+.mono::after{content:"";position:absolute;right:5px;bottom:5px;width:5px;height:5px;background:var(--stamp)}
+.brand-name{font-family:var(--f-display);font-size:18px;line-height:1.1}
+.brand-name small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--muted)}
+
+/* Pixel canvas */
+.pix{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:8px;border:1px solid var(--line)}
+
+/* Start */
+.logo{font-family:var(--f-display);font-size:60px;line-height:1;margin:18px 0 8px}
+.logo b{color:var(--stamp);font-weight:400}
+.lede{margin:0 0 18px;color:var(--muted)}
+.memo{border-top:1px dashed var(--line);padding-top:14px;display:grid;gap:8px;font-size:14px}
+.memo div{display:flex;justify-content:space-between;gap:12px}
+.memo span:first-child{color:var(--muted)}
+.btn{width:100%;border:0;border-radius:8px;padding:16px;font-weight:700;font-size:17px;background:var(--navy);color:var(--on-navy)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.fine{font-size:12px;color:var(--muted);text-align:center;margin:0}
+
+/* Question */
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.back{border:0;background:none;color:var(--muted);font-size:14px;padding:4px 0}
+.floor{font-family:var(--f-mono);font-size:13px;background:var(--navy);color:var(--on-navy);border-radius:4px;padding:3px 8px;font-variant-numeric:tabular-nums}
+.prog{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:14px 0 20px}
+.prog i{height:6px;border-radius:1px;background:var(--line)}
+.prog i.on{background:var(--navy)}
+.prog i.now{background:var(--stamp)}
+.q{font-size:21px;font-weight:800;line-height:1.4;margin:0 0 4px}
+.hint{font-size:13px;color:var(--muted);margin:0 0 16px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--sheet);border:1px solid var(--line);border-radius:8px;padding:13px 14px;font-size:15px}
+.opt:hover{background:var(--soft)}
+.opt .box{flex:none;width:18px;height:18px;border:1.5px solid var(--muted);border-radius:3px;display:grid;place-items:center;font-size:12px;font-weight:700}
+.opt.sel{border-color:var(--navy);background:var(--soft)}
+.opt.sel .box{background:var(--navy);border-color:var(--navy);color:var(--on-navy)}
+.next{margin-top:16px}
+
+/* Badge */
+.lanyard{width:64px;height:12px;border-radius:6px;background:var(--line);margin:0 auto -6px;position:relative;z-index:1}
+.badge{background:var(--sheet);border:1px solid var(--line);border-radius:14px;overflow:hidden;position:relative;box-shadow:0 12px 30px -20px rgba(20,25,45,.5)}
+.badge-head{background:var(--tc);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.badge-head .mono{background:#fff;color:var(--tc)}
+.badge-head .brand-name small{color:rgba(255,255,255,.8)}
+.hole{width:42px;height:9px;border-radius:5px;background:rgba(255,255,255,.55)}
+.badge-body{padding:20px;display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:center}
+.portrait{width:104px;height:auto;image-rendering:pixelated;border-radius:6px;border:1px solid var(--line);display:block;max-width:100%}
+.who{min-width:0}
+.dept{font-size:13px;color:var(--muted)}
+.rank{font-family:var(--f-display);font-size:27px;line-height:1.15;margin:2px 0 6px;color:var(--ink)}
+.empno{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.say{padding:0 20px 16px;margin:0;font-size:15px}
+.barcode{height:32px;margin:0 112px 18px 20px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px);opacity:.85}
+.stamp{position:absolute;right:16px;bottom:12px;width:76px;height:76px;border:3px solid var(--stamp);border-radius:50%;color:var(--stamp);display:grid;place-items:center;font-family:var(--f-display);font-size:22px;transform:rotate(-14deg)}
+.stamp span{border-top:1.5px solid var(--stamp);border-bottom:1.5px solid var(--stamp);padding:0 4px;line-height:1.3}
+@media (prefers-reduced-motion:no-preference){.stamp.go{animation:thud .45s .3s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes thud{from{transform:rotate(-14deg) scale(2.2);opacity:0}to{transform:rotate(-14deg) scale(1);opacity:1}}}
+
+.sec h2{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sec h2::before{content:"";width:8px;height:8px;background:var(--tc)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.list li{display:flex;gap:10px;align-items:baseline;font-size:15px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.list li:last-child{border-bottom:0;padding-bottom:0}
+.list li b{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-weight:400;min-width:22px}
+.owned{font-size:13px;color:var(--muted);margin:12px 0 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.credit{margin:4px 0 0;text-align:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:8px}
+.credit::before,.credit::after{content:"";height:1px;width:28px;background:var(--line)}
+.credit b{color:var(--ink);font-weight:700}
+.toast{text-align:center;font-size:13px;color:var(--stamp);min-height:20px;margin:0}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+const TYPES = {
+  plan:{name:"아이디어 뱅크",dept:"기획·마케팅본부",glyph:"기획",color:"#2F5BD3",
+    say:"남들이 \"그냥 하자\"할 때 \"이렇게 하면 더 재밌겠다\"를 먼저 떠올리는 사람이에요.",
+    jobs:["서비스·사업 기획","브랜드 마케터","콘텐츠 마케터"],
+    certs:[["컴퓨터활용능력","comp"],["사회조사분석사 2급"],["구글 애널리틱스(GA4) 인증"],["토익스피킹·OPIc","eng"]],
+    acts:["기업 마케팅 서포터즈","광고·기획 공모전","지역 축제 기획단"]},
+  design:{name:"감성 크리에이터",dept:"디자인·콘텐츠실",glyph:"감각",color:"#C2410C",
+    say:"같은 내용도 보기 좋게 바꿔야 직성이 풀리는, 눈이 먼저 일하는 사람이에요.",
+    jobs:["그래픽·브랜드 디자이너","영상 콘텐츠 제작자","UI·UX 디자이너"],
+    certs:[["GTQ(그래픽기술자격)","gtq"],["컬러리스트산업기사"],["ACP(어도비 공인 자격)"]],
+    acts:["디자인 공모전","지자체 SNS 기자단","포트폴리오 스터디"]},
+  it:{name:"논리 설계자",dept:"IT개발팀",glyph:"설계",color:"#0F766E",
+    say:"안 되는 걸 보면 원리부터 뜯어보고, 직접 고쳐야 속이 시원한 사람이에요.",
+    jobs:["웹·앱 개발자","IT 서비스 운영","QA 엔지니어"],
+    certs:[["정보처리기사","info"],["SQLD(SQL 개발자)"],["리눅스마스터 2급"],["AWS 클라우드 프랙티셔너"]],
+    acts:["해커톤","개발 동아리·부트캠프","오픈소스 기여"]},
+  office:{name:"든든한 살림꾼",dept:"경영지원팀",glyph:"꼼꼼",color:"#4D5B7C",
+    say:"일정과 숫자가 딱 맞아떨어질 때 쾌감을 느끼는, 팀에 꼭 있어야 하는 사람이에요.",
+    jobs:["총무·인사","회계·재무","사무 행정"],
+    certs:[["컴퓨터활용능력 1급","comp"],["전산회계 1급"],["ERP정보관리사"],["워드프로세서"]],
+    acts:["공공기관 체험형 인턴","회계·엑셀 스터디","행사 운영 스태프"]},
+  sales:{name:"인싸 해결사",dept:"영업·고객경험팀",glyph:"소통",color:"#B4235A",
+    say:"처음 보는 사람과도 5분이면 편해지고, 상대가 원하는 걸 금방 알아채는 사람이에요.",
+    jobs:["B2B·B2C 영업","고객경험(CX) 매니저","매장·지점 관리"],
+    certs:[["CS Leaders(관리사)"],["SMAT(서비스경영자격)"],["토익스피킹·OPIc","eng"],["운전면허","drive"]],
+    acts:["기업 서포터즈","팝업스토어 운영 스태프","영업 직무 인턴"]},
+  care:{name:"따뜻한 멘토",dept:"교육·상담센터",glyph:"공감",color:"#3F7D3A",
+    say:"누군가 \"덕분에 괜찮아졌어\"라고 말해줄 때 제일 힘이 나는 사람이에요.",
+    jobs:["직업·진로 상담","사회복지","교육 기획·강사"],
+    certs:[["직업상담사 2급"],["사회복지사 2급 (학점 이수 필요)"],["청소년상담사 3급 (응시 요건 확인)"],["한국사능력검정","hist"]],
+    acts:["청소년 멘토링 봉사","복지관 자원봉사","또래 상담 동아리"]},
+  global:{name:"글로벌 탐험가",dept:"해외사업부",glyph:"해외",color:"#7C3AED",
+    say:"낯선 곳과 낯선 언어 앞에서 오히려 신나는, 무대가 넓을수록 잘하는 사람이에요.",
+    jobs:["무역·해외영업","관광·호텔 서비스","글로벌 마케팅"],
+    certs:[["토익스피킹·OPIc","eng"],["무역영어"],["국제무역사"],["관광통역안내사"]],
+    acts:["국제 행사 통역 봉사","외국인 유학생 언어교환","해외 탐방 프로그램"]},
+  data:{name:"분석 탐정",dept:"데이터전략실",glyph:"분석",color:"#0369A1",
+    say:"\"왜 그렇지?\"가 입버릇이고, 근거를 찾을 때까지 파고드는 사람이에요.",
+    jobs:["데이터 분석가","시장·리서치 분석","연구 보조원"],
+    certs:[["ADsP(데이터분석 준전문가)"],["SQLD(SQL 개발자)"],["빅데이터분석기사"],["사회조사분석사 2급"]],
+    acts:["데이터 분석 공모전","리서치 동아리","공공데이터 활용 공모전"]},
+};
+const ORDER = ["plan","design","it","office","sales","care","global","data"];
+
+const Q = [
+  {q:"전공 계열이 어떻게 되나요?",o:[
+    ["인문",{care:1,global:1,plan:1}],["사회",{plan:1,care:1,data:1}],["경영·경제",{office:2,sales:1,plan:1}],
+    ["공학",{it:2,data:1}],["자연",{data:2,it:1}],["예체능",{design:3}],["교육",{care:3}],["의료·보건",{care:2,office:1}],["아직 없음·기타",{}]]},
+  {q:"요즘 관심 가는 분야를 골라주세요",hint:"최대 3개까지 고를 수 있어요",multi:3,o:[
+    ["트렌드·SNS",{plan:1,design:1}],["숫자·엑셀",{office:1,data:1}],["컴퓨터·앱",{it:2}],["사람 만나기",{sales:2}],
+    ["누군가 돕기",{care:2}],["외국어·여행",{global:2}],["그림·영상",{design:2}],["원리 파헤치기",{data:2}]]},
+  {q:"쉬는 날 주로 뭐 하세요?",o:[
+    ["카페·전시 구경",{design:1,plan:1}],["게임하거나 뭔가 만들어보기",{it:2}],["친구 만나서 수다",{sales:2}],
+    ["봉사나 동네 모임",{care:2}],["다음 여행 계획 세우기",{global:2}],["다이어리·가계부 정리",{office:2}],["다큐·지식 유튜브 정주행",{data:2}]]},
+  {q:"갖고 있는 자격증이나 어학 성적이 있나요?",hint:"해당하는 걸 모두 골라주세요. 결과 추천에서 빼드려요",multi:9,cert:true,o:[
+    ["컴퓨터활용능력",{office:1},"comp"],["토익·토익스피킹·OPIc",{global:1},"eng"],["GTQ",{design:1},"gtq"],
+    ["정보처리기사",{it:1},"info"],["한국사능력검정",{},"hist"],["운전면허",{},"drive"],["없음",{},"none"]]},
+  {q:"재밌게 본 드라마를 하나 골라주세요",o:[
+    ["미생",{office:2,sales:1}],["스타트업",{it:2,plan:1}],["슬기로운 의사생활",{care:2}],["이태원 클라쓰",{sales:1,plan:2}],
+    ["나의 아저씨",{care:1,office:1}],["그 해 우리는",{design:2}],["비밀의 숲",{data:2}],["사랑의 불시착",{global:2}]]},
+  {q:"팀 프로젝트에서 나는 주로",o:[
+    ["아이디어를 먼저 던진다",{plan:2}],["발표 자료를 예쁘게 꾸민다",{design:2}],["자료 조사와 정리를 맡는다",{data:2}],["일정과 역할을 정리한다",{office:2}]]},
+  {q:"알바할 때 제일 뿌듯했던 순간은?",o:[
+    ["손님이 웃으며 고맙다고 할 때",{sales:2}],["엉망이던 걸 매뉴얼로 정리했을 때",{office:2}],["외국인 손님 응대에 성공했을 때",{global:2}],["신입한테 일을 알려줬을 때",{care:2}]]},
+  {q:"새 앱을 깔면 제일 먼저",o:[
+    ["기능을 하나씩 다 눌러본다",{it:2}],["디자인부터 훑어본다",{design:2}],["리뷰랑 평점을 비교한다",{data:2}],["좋으면 친구한테 바로 추천한다",{sales:2}]]},
+  {q:"친구들과 주말 약속을 정할 때 나는",o:[
+    ["콘셉트 있는 장소를 제안한다",{plan:2}],["투표 링크를 만들어 정리한다",{office:2}],["다들 좋은 데로 맞춰준다",{care:2}],["안 가본 동네를 가자고 한다",{global:2}]]},
+  {q:"회사에서 들으면 제일 기분 좋을 말은?",o:[
+    ["\"그 아이디어 좋다\"",{plan:2}],["\"감각 있네\"",{design:2}],["\"역시 꼼꼼해\"",{office:2}],["\"덕분에 계약됐어\"",{sales:2}]]},
+  {q:"갑자기 문제가 생기면",o:[
+    ["원인부터 찾아본다",{data:2}],["일단 직접 고쳐본다",{it:2}],["아는 사람한테 물어본다",{sales:1,global:1}],["같이 해결할 사람을 모은다",{care:1,plan:1}]]},
+  {q:"5년 뒤 나는 어디에 있을까요?",o:[
+    ["해외에서 일하는 중",{global:3}],["내 이름이 걸린 작업물 앞에",{design:2,plan:1}],["팀을 이끄는 자리에",{plan:2,office:1}],["전문가로 인정받는 자리에",{it:1,data:2}]]},
+];
+
+
+/* ───── Pixel engine ───── */
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let loops = [];
+function stopLoops(){ loops.forEach(id=>clearInterval(id)); loops=[]; }
+function pixCanvas(el,w,h,scale,draw,fps=8){
+  el.width=w*scale; el.height=h*scale;
+  const c=el.getContext("2d"); c.imageSmoothingEnabled=false;
+  const R=(x,y,ww,hh,col)=>{c.fillStyle=col;c.fillRect(x*scale,y*scale,ww*scale,hh*scale)};
+  let f=0; draw(R,0);
+  if(!RM) loops.push(setInterval(()=>{f++;c.clearRect(0,0,el.width,el.height);draw(R,f)},1000/fps));
+}
+// 3x5 pixel letters for the wall sign
+const GL={J:["001","001","001","101","111"],B:["110","101","110","101","110"]};
+function letter(R,ch,x,y,col){GL[ch].forEach((row,j)=>[...row].forEach((v,i)=>{if(v==="1")R(x+i,y+j,1,1,col)}))}
+
+function drawOffice(R,f){
+  const wall="#EEF1F7", floor="#D5DAE4", navy="#1D2B53", skin="#F2C7A5", hair="#2B2B33";
+  R(0,0,64,32,wall); R(0,32,64,8,floor); R(0,31,64,1,"#C3C9D6");
+  // window + drifting cloud
+  R(3,4,12,11,"#B9C2D3"); R(4,5,10,9,"#9FD3F5");
+  const cx=4+((f>>1)%14)-3; for(const [dx,dy,w] of [[1,0,3],[0,1,5]]){const x0=Math.max(4,cx+dx),x1=Math.min(14,cx+dx+w);if(x1>x0)R(x0,8+dy,x1-x0,1,"#FFFFFF")}
+  R(9,5,1,9,"#B9C2D3");
+  // company sign
+  R(18,3,11,8,navy); letter(R,"J",19,4,"#FFFFFF"); letter(R,"B",23,4,"#FFFFFF"); R(27,9,1,1,"#D63A2F");
+  // wall clock with moving hand
+  const ox=55,oy=7; R(52,5,7,5,"#FFFFFF"); R(53,4,5,7,"#FFFFFF"); R(52,4,1,1,wall); 
+  R(55,7,1,1,navy); const dirs=[[0,-2],[1,-2],[2,-1],[2,0],[2,1],[1,2],[0,2],[-1,2],[-2,1],[-2,0],[-2,-1],[-1,-2]];
+  const d=dirs[(f>>2)%12]; R(ox+Math.sign(d[0]),oy+Math.sign(d[1]),1,1,navy); R(ox+d[0],oy+d[1],1,1,"#D63A2F");
+  // desk
+  R(24,26,30,2,"#8A6A4F"); R(25,28,2,4,"#6E523C"); R(51,28,2,4,"#6E523C");
+  // monitor with scrolling code
+  R(30,14,12,10,"#2B2F3A"); R(31,15,10,8,"#14213D"); R(35,24,2,2,"#2B2F3A");
+  const cols=["#7DD3FC","#FCA5A5","#FDE68A","#86EFAC"];
+  for(let r=0;r<4;r++){const k=(r+(f>>1))%7; const len=2+((k*5)%7); R(32+(k%2),16+r*2,Math.min(len,8),1,cols[k%4])}
+  if((f>>2)%2) R(32,22,1,1,"#FFFFFF");
+  // keyboard
+  R(27,25,5,1,"#9AA3B5");
+  // chair
+  R(15,19,3,9,"#3A4256"); R(15,26,9,1,"#3A4256"); R(18,27,1,5,"#3A4256"); R(15,31,7,1,"#3A4256");
+  // worker
+  R(19,18,5,8,navy); R(21,18,1,4,"#FFFFFF");               // shirt + collar
+  R(19,12,5,5,skin); R(19,11,5,2,hair); R(19,13,1,2,hair);   // head
+  if(f%24>1) R(22,14,1,1,hair);                               // eye (blinks)
+  R(20,26,7,2,"#3B3F4C"); R(25,28,2,4,"#3B3F4C"); R(25,31,3,1,"#111");
+  const up=f%2; R(23,20,2,1,navy); R(25,21-up,2,1,navy); R(27,23-up,1,1,skin); // typing arm
+  // mug + steam
+  R(45,23,3,3,"#FFFFFF"); R(45,24,3,1,"#D63A2F"); R(48,24,1,1,"#FFFFFF");
+  for(let i=0;i<2;i++){const s=(f+i*3)%6; if(s<5) R(46+((s+i)%2),21-s,1,1,"#C3C9D6")}
+  // plant
+  R(56,27,4,5,"#C2410C"); R(57,22,2,5,"#3F7D3A"); R(55,23,2,2,"#4C9A45"); R(59,21,2,3,"#4C9A45"); R(57,20,1,2,"#4C9A45");
+}
+
+function drawPortrait(color){
+  return (R,f)=>{
+    const skin="#F2C7A5", hair="#2B2B33";
+    R(0,0,24,32,"#F4F6FA");
+    R(0,0,24,1,color); R(0,31,24,1,color);
+    R(4,19,16,13,color); R(10,19,4,2,"#FFFFFF"); R(11,20,2,9,"#1D2B53");   // suit, collar, tie
+    R(16,22,3,4,"#FFFFFF"); R(17,23,1,1,color);                              // name tag
+    R(10,16,4,3,skin);                                                       // neck
+    R(7,6,10,10,skin); R(6,4,12,4,hair); R(6,8,1,4,hair); R(17,8,1,4,hair);  // head + hair
+    const blink=f%30<2; if(!blink){R(9,10,2,2,hair);R(13,10,2,2,hair)} else {R(9,11,2,1,hair);R(13,11,2,1,hair)}
+    R(10,14,4,1,"#C26A5A"); R(8,12,1,1,"#F5A8A0"); R(15,12,1,1,"#F5A8A0");  // smile + cheeks
+    if((f>>3)%2) R(20,3,1,1,color), R(21,2,1,1,color);                       // sparkle
+  };
+}
+
+/* ───── Screens ───── */
+const app = document.getElementById("app");
+let step = -1, answers = Q.map(()=>[]), toastTimer;
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const brand = (sub="JOB BTI CORP.")=>`<div class="brand"><div class="mono">JB</div><div class="brand-name">잡BTI 주식회사<small>${sub}</small></div></div>`;
+
+function renderStart(){
+  app.innerHTML = `
+  <section class="sheet">
+    ${brand("1F 로비 · 채용 접수처")}
+    <canvas class="pix" id="office" style="margin-top:16px" aria-label="책상에서 일하는 직원의 픽셀 그림"></canvas>
+    <h1 class="logo">잡<b>BTI</b></h1>
+    <p class="lede">12층 면접장까지 질문 하나에 한 층씩 올라가요. 도착하면 나한테 어울리는 직무와 따두면 좋은 자격증, 해볼 만한 대외활동이 적힌 사원증을 발급해 드려요.</p>
+    <div class="memo">
+      <div><span>면접 문항</span><span>12문항</span></div>
+      <div><span>소요 시간</span><span>약 3분</span></div>
+      <div><span>발급 서류</span><span>사원증 1매</span></div>
+    </div>
+  </section>
+  <button class="btn" id="go">면접 보러 가기</button>
+  <p class="fine">재미로 보는 흥미 탐색 테스트예요. 진로를 정할 때는 상담도 함께 받아보세요.</p>
+  <p class="credit">제작 <b>사단법인 고래</b></p>`;
+  pixCanvas(document.getElementById("office"),64,40,6,drawOffice);
+  document.getElementById("go").onclick = ()=>{step=0;render()};
+}
+
+function renderQ(){
+  const item = Q[step], sel = answers[step];
+  app.innerHTML = `
+  <section class="sheet">
+    <div class="top">
+      <button class="back" id="back">← 이전</button>
+      <span class="floor" aria-label="${step+1}층">▲ ${String(step+1).padStart(2,"0")}F</span>
+    </div>
+    <div class="prog" aria-hidden="true">${Q.map((_,i)=>`<i class="${i<step?"on":i===step?"now":""}"></i>`).join("")}</div>
+    <div class="eyebrow" style="margin-bottom:6px">면접 질문 ${step+1} / 12</div>
+    <h2 class="q">${esc(item.q)}</h2>
+    <p class="hint">${esc(item.hint||"하나만 골라주세요")}</p>
+    <div class="opts">${item.o.map((o,i)=>`<button class="opt ${sel.includes(i)?"sel":""}" data-i="${i}" id="q${step}o${i}" aria-pressed="${sel.includes(i)}"><span class="box">${sel.includes(i)?"✓":""}</span>${esc(o[0])}</button>`).join("")}</div>
+    ${item.multi?`<button class="btn next" id="next" ${sel.length?"":"disabled"}>다음 층으로</button>`:""}
+  </section>`;
+  document.getElementById("back").onclick = ()=>{step--;render()};
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(+b.dataset.i));
+  const n = document.getElementById("next"); if(n) n.onclick = ()=>{step++;render()};
+}
+
+function pick(i){
+  const item = Q[step]; let sel = answers[step];
+  if(!item.multi){ answers[step]=[i]; renderQ(); setTimeout(()=>{step++;render()},180); return; }
+  if(item.cert){
+    const none = item.o.findIndex(o=>o[2]==="none");
+    if(i===none) sel = sel.includes(i)?[]:[i];
+    else { sel = sel.filter(x=>x!==none); sel = sel.includes(i)?sel.filter(x=>x!==i):[...sel,i]; }
+  } else {
+    if(sel.includes(i)) sel = sel.filter(x=>x!==i);
+    else if(sel.length<item.multi) sel=[...sel,i];
+  }
+  answers[step]=sel; renderQ();
+}
+
+function score(){
+  const s = Object.fromEntries(ORDER.map(k=>[k,0]));
+  Q.forEach((item,qi)=>answers[qi].forEach(oi=>{for(const [k,v] of Object.entries(item.o[oi][1])) s[k]+=v;}));
+  let best = ORDER[0]; ORDER.forEach(k=>{if(s[k]>s[best]) best=k});
+  const owned = new Set(answers[3].map(i=>Q[3].o[i][2]).filter(x=>x&&x!=="none"));
+  const seed = answers.flat().reduce((a,b,i)=>(a*31+b+i)%9000,7)+1000;
+  return {key:best, owned, emp:`JB-2026-${seed}`};
+}
+
+function renderResult(){
+  const {key,owned,emp} = score(), t = TYPES[key];
+  const certs = t.certs.filter(c=>!c[1]||!owned.has(c[1]));
+  const skipped = t.certs.filter(c=>c[1]&&owned.has(c[1])).map(c=>c[0]);
+  app.style.setProperty("--tc",t.color);
+  app.innerHTML = `
+  <div>
+    <div class="lanyard"></div>
+    <article class="badge" aria-label="잡BTI 사원증">
+      <div class="badge-head">${brand("EMPLOYEE ID CARD")}<div class="hole"></div></div>
+      <div class="badge-body">
+        <canvas class="portrait" id="face" aria-label="${esc(t.name)}형 사원의 픽셀 증명사진"></canvas>
+        <div class="who">
+          <div class="dept">${esc(t.dept)}</div>
+          <div class="rank">${esc(t.name)}형</div>
+          <div class="empno">사원번호 ${emp}</div>
+        </div>
+      </div>
+      <p class="say">${esc(t.say)}</p>
+      <div class="barcode" aria-hidden="true"></div>
+      <div class="stamp go" aria-hidden="true"><span>채용</span></div>
+    </article>
+  </div>
+  <section class="sheet sec">
+    <h2>어울리는 직무</h2>
+    <ul class="list">${t.jobs.map((j,i)=>`<li><b>${String(i+1).padStart(2,"0")}</b>${esc(j)}</li>`).join("")}</ul>
+  </section>
+  <section class="sheet sec">
+    <h2>따두면 좋은 자격증</h2>
+    <ul class="list">${certs.map(c=>`<li><b>✓</b>${esc(c[0])}</li>`).join("")}</ul>
+    ${skipped.length?`<p class="owned">이미 갖고 있는 ${skipped.map(esc).join(", ")}은(는) 목록에서 뺐어요.</p>`:""}
+  </section>
+  <section class="sheet sec">
+    <h2>해볼 만한 대외활동</h2>
+    <ul class="list">${t.acts.map(a=>`<li><b>→</b>${esc(a)}</li>`).join("")}</ul>
+  </section>
+  <div class="row">
+    <button class="btn" id="share">결과 복사하기</button>
+    <button class="btn ghost" id="again">다시 하기</button>
+  </div>
+  <p class="toast" id="toast" role="status"></p>
+  <p class="fine">재미로 보는 흥미 탐색 테스트예요. 자격증 응시 요건은 시행 기관에서 꼭 확인하세요.</p>
+  <p class="credit">제작 <b>사단법인 고래</b></p>`;
+  pixCanvas(document.getElementById("face"),24,32,6,drawPortrait(t.color));
+  document.getElementById("again").onclick = ()=>{answers=Q.map(()=>[]);step=-1;app.style.removeProperty("--tc");render()};
+  document.getElementById("share").onclick = ()=>{
+    const text = `[잡BTI 사원증]\n${t.dept} · ${t.name}형\n${t.say}\n어울리는 직무: ${t.jobs.join(", ")}\n추천 자격증: ${certs.map(c=>c[0]).join(", ")}`;
+    const done = m=>{const el=document.getElementById("toast");el.textContent=m;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.textContent="",2400)};
+    try{ navigator.clipboard.writeText(text).then(()=>done("결과를 복사했어요. 친구에게 붙여넣어 보세요."),()=>done("복사가 막혀 있어요. 화면을 캡처해서 공유해 주세요.")); }
+    catch(e){ done("복사가 막혀 있어요. 화면을 캡처해서 공유해 주세요."); }
+  };
+  window.scrollTo(0,0);
+}
+
+function render(){ stopLoops(); if(step<0) renderStart(); else if(step>=Q.length) renderResult(); else renderQ(); }
+render();
+</script>
